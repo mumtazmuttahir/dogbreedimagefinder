@@ -5,6 +5,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
+import 'presentation/ui/shared_ui/image_list_by_breed.dart';
+
 void main() {
   runApp(const MyApp());
 }
@@ -79,88 +81,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         //Random image by breed
                         RandomBreedSection(),
                         //Image list from a breed
-                        // PlatformTextButton(
-                        //   child: const Text("Images list for Breed: "),
-                        //   onPressed: () {},
-                        // ),
-                        // SizedBox(
-                        //   width: MediaQuery.of(context).size.width,
-                        //   height: 150,
-                        //   child: ListView.builder(
-                        //     scrollDirection: Axis.horizontal,
-                        //     itemCount: 5,
-                        //     itemBuilder: (BuildContext context, int index) {
-                        //       return Padding(
-                        //         padding: const EdgeInsets.all(16.0),
-                        //         child: Image.network(
-                        //           'https://picsum.photos/250?image=9',
-                        //           width: 100,
-                        //           height: 100,
-                        //           // color: Colors.grey,
-                        //         ),
-                        //       );
-                        //       // return TextButton(
-                        //       //   onPressed: null,
-                        //       //   child: Text("$index"),
-                        //       // );
-                        //     },
-                        //   ),
-                        // ),
-                        // const Divider(
-                        //   height: 10,
-                        // ),
-                        // //Random image by breed
-                        // PlatformTextButton(
-                        //   child: const Text("Breed"),
-                        //   onPressed: () {},
-                        // ),
-                        // // FadeInImage.memoryNetwork(
-                        // //   placeholder: 'https://picsum.photos/250?image=9',
-                        // //   image: 'https://picsum.photos/250?image=9',
-                        // // ),
-                        // Padding(
-                        //   padding: const EdgeInsets.all(16.0),
-                        //   child: Image.network(
-                        //     'https://picsum.photos/250?image=9',
-                        //     width: 100,
-                        //     height: 100,
-                        //     // color: Colors.grey,
-                        //   ),
-                        // ),
-                        // const Divider(
-                        //   height: 10,
-                        // ),
-                        // //Image list from a breed
-                        // PlatformTextButton(
-                        //   child: const Text("Images list for Breed: "),
-                        //   onPressed: () {},
-                        // ),
-                        // SizedBox(
-                        //   width: MediaQuery.of(context).size.width,
-                        //   height: 150,
-                        //   child: ListView.builder(
-                        //     scrollDirection: Axis.horizontal,
-                        //     itemCount: 5,
-                        //     itemBuilder: (BuildContext context, int index) {
-                        //       return Padding(
-                        //         padding: const EdgeInsets.all(16.0),
-                        //         child: Image.network(
-                        //           'https://picsum.photos/250?image=9',
-                        //           width: 100,
-                        //           height: 100,
-                        //           // color: Colors.grey,
-                        //         ),
-                        //       );
-                        //       // return TextButton(
-                        //       //   onPressed: null,
-                        //       //   child: Text("$index"),
-                        //       // );
-                        //     },
-                        //   ),
-                        // ),
-                        // const Divider(
-                        //   height: 10,
-                        // ),
+                        ImageListByBreedSection(),
                       ],
                     );
                   } else {

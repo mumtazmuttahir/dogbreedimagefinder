@@ -61,4 +61,18 @@ class DogApi {
       throw Exception('Failed to load album');
     }
   }
+
+  Future<List<String>> fetchImageListByBreed(String breedName) async {
+    final response = await http
+        .get(Uri.parse('https://dog.ceo/api/breed/$breedName/images'));
+
+    if (response.statusCode == 200) {
+      List<String>? images = RandomImageByBreed.fromJson(
+              jsonDecode(response.body) as Map<String, dynamic>)
+          .message;
+      return images!;
+    } else {
+      throw Exception('Failed to load album');
+    }
+  }
 }

@@ -15,8 +15,6 @@ class RandomBreedSection extends StatefulWidget {
 }
 
 class _RandomBreedSectionState extends State<RandomBreedSection> {
-  // late Future<RandomBreed> fetchRandomBreed;
-
   late Future<String> fetchRandomImageByBreed;
   double kItemExtent = 32.0;
   int selectedBreed = 0;
@@ -39,10 +37,6 @@ class _RandomBreedSectionState extends State<RandomBreedSection> {
         PlatformTextButton(
           child: Text("Breed: ${DogApi().dogBreedList[selectedBreed]}"),
           onPressed: () {
-            // setState(() {
-            //   fetchRandomImageByBreed = DogApi()
-            //       .fetchRandomImageByBreed(DogApi().dogBreedList[indexValue]);
-            // });
             if (Platform.isIOS) {
               showCupertinoModalPopup(
                 context: context,
@@ -67,11 +61,6 @@ class _RandomBreedSectionState extends State<RandomBreedSection> {
                         setState(
                           () {
                             selectedBreed = selectedItem;
-                            // dropDownBreedValue =
-                            //     snapshot.data![selectedItem];
-                            // dogsList = helper.listDogsByID(
-                            //     snapshot.data![selectedItem].id,
-                            //     sizeValues[_selectedSize]);
                             fetchRandomImageByBreed = DogApi()
                                 .fetchRandomImageByBreed(
                                     DogApi().dogBreedList[selectedBreed]);
