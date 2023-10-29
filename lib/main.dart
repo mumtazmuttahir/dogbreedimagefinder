@@ -1,3 +1,6 @@
+import 'package:dogbreedimagefinder/data_sources/network/dog_breed_source.dart';
+import 'package:dogbreedimagefinder/domain/entities/breed.dart';
+import 'package:dogbreedimagefinder/presentation/ui/shared_ui/random_breed.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
@@ -39,9 +42,23 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  late Future<RandomBreed> fetchRandomBreed;
+  late Future<List<String>> dogList;
+  ScrollController controller = ScrollController();
+  @override
+  void initState() {
+    super.initState();
+    dogList = DogApi().fetchAllDogBreeds();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    controller.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-    ScrollController controller = ScrollController();
     return PlatformScaffold(
       material: (_, __) => MaterialScaffoldData(),
       cupertino: (_, __) => CupertinoPageScaffoldData(),
@@ -51,85 +68,108 @@ class _MyHomePageState extends State<MyHomePage> {
       body: SingleChildScrollView(
         controller: controller,
         child: SafeArea(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              PlatformTextButton(
-                child: const Text("Breed"),
-                onPressed: () {},
-              ),
-              // FadeInImage.memoryNetwork(
-              //   placeholder: 'https://picsum.photos/250?image=9',
-              //   image: 'https://picsum.photos/250?image=9',
-              // ),
-              Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Image.network(
-                  'https://picsum.photos/250?image=9',
-                  width: 100,
-                  height: 100,
-                  // color: Colors.grey,
-                ),
-              ),
-              const Divider(
-                height: 10,
-              ),
-              PlatformTextButton(
-                child: const Text("Images list for Breed: "),
-                onPressed: () {},
-              ),
-              SizedBox(
-                width: MediaQuery.of(context).size.width,
-                height: 150,
-                child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: 5,
-                  itemBuilder: (BuildContext context, int index) {
-                    return Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Image.network(
-                        'https://picsum.photos/250?image=9',
-                        width: 100,
-                        height: 100,
-                        // color: Colors.grey,
-                      ),
+            child: FutureBuilder(
+                future: dogList,
+                builder: ((context, snapshot) {
+                  if (snapshot.hasData) {
+                    return Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: const <Widget>[
+                        //Random image by breed
+                        RandomBreedSection(),
+                        //Image list from a breed
+                        // PlatformTextButton(
+                        //   child: const Text("Images list for Breed: "),
+                        //   onPressed: () {},
+                        // ),
+                        // SizedBox(
+                        //   width: MediaQuery.of(context).size.width,
+                        //   height: 150,
+                        //   child: ListView.builder(
+                        //     scrollDirection: Axis.horizontal,
+                        //     itemCount: 5,
+                        //     itemBuilder: (BuildContext context, int index) {
+                        //       return Padding(
+                        //         padding: const EdgeInsets.all(16.0),
+                        //         child: Image.network(
+                        //           'https://picsum.photos/250?image=9',
+                        //           width: 100,
+                        //           height: 100,
+                        //           // color: Colors.grey,
+                        //         ),
+                        //       );
+                        //       // return TextButton(
+                        //       //   onPressed: null,
+                        //       //   child: Text("$index"),
+                        //       // );
+                        //     },
+                        //   ),
+                        // ),
+                        // const Divider(
+                        //   height: 10,
+                        // ),
+                        // //Random image by breed
+                        // PlatformTextButton(
+                        //   child: const Text("Breed"),
+                        //   onPressed: () {},
+                        // ),
+                        // // FadeInImage.memoryNetwork(
+                        // //   placeholder: 'https://picsum.photos/250?image=9',
+                        // //   image: 'https://picsum.photos/250?image=9',
+                        // // ),
+                        // Padding(
+                        //   padding: const EdgeInsets.all(16.0),
+                        //   child: Image.network(
+                        //     'https://picsum.photos/250?image=9',
+                        //     width: 100,
+                        //     height: 100,
+                        //     // color: Colors.grey,
+                        //   ),
+                        // ),
+                        // const Divider(
+                        //   height: 10,
+                        // ),
+                        // //Image list from a breed
+                        // PlatformTextButton(
+                        //   child: const Text("Images list for Breed: "),
+                        //   onPressed: () {},
+                        // ),
+                        // SizedBox(
+                        //   width: MediaQuery.of(context).size.width,
+                        //   height: 150,
+                        //   child: ListView.builder(
+                        //     scrollDirection: Axis.horizontal,
+                        //     itemCount: 5,
+                        //     itemBuilder: (BuildContext context, int index) {
+                        //       return Padding(
+                        //         padding: const EdgeInsets.all(16.0),
+                        //         child: Image.network(
+                        //           'https://picsum.photos/250?image=9',
+                        //           width: 100,
+                        //           height: 100,
+                        //           // color: Colors.grey,
+                        //         ),
+                        //       );
+                        //       // return TextButton(
+                        //       //   onPressed: null,
+                        //       //   child: Text("$index"),
+                        //       // );
+                        //     },
+                        //   ),
+                        // ),
+                        // const Divider(
+                        //   height: 10,
+                        // ),
+                      ],
                     );
-                    // return TextButton(
-                    //   onPressed: null,
-                    //   child: Text("$index"),
-                    // );
-                  },
-                ),
-              ),
-              const Divider(
-                height: 10,
-              ),
-            ],
-          ),
-        ),
+                  } else {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+                }))),
       ),
     );
-
-    // Scaffold(
-    //   appBar: AppBar(
-    //     title: Text(widget.title),
-    //   ),
-    //   body: Center(
-    //     child: Column(
-    //       mainAxisAlignment: MainAxisAlignment.center,
-    //       children: const <Widget>[
-    //         Text(
-    //           'You have pushed the button this many times:',
-    //         ),
-    //       ],
-    //     ),
-    //   ),
-    //   floatingActionButton: FloatingActionButton(
-    //     onPressed: () => {},
-    //     tooltip: 'Increment',
-    //     child: const Icon(Icons.add),
-    //   ), // This trailing comma makes auto-formatting nicer for build methods.
-    // );
   }
 }
